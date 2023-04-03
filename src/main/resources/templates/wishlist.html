@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>wishlist</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+<div th:if="${param.success}">
+	<div class="message">
+		<span >Deleted product in WishList success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<section class="heading">
+    <h3>your wishlist</h3>
+    <p> <a href="/" th:href=@{/}>home</a> / wishlist </p>
+</section>
+
+<section class="wishlist">
+
+    <h1 class="title">products added</h1>
+
+    <div class="box-container">
+    <form th:if="${wishLists!=null}" th:each="wishl : ${wishLists}" action="" method="POST" class="box" th:object="${wishlist}">
+         <button type="submit" th:formaction="@{/wishlist/delete?id={id}(id=${wishl.id})}" class="fas fa-times" th:onclick=" return confirm('delete this from wishlist?')"></button>
+         <a href="/" th:href="@{/view_page?pid={id}(id=${wishl.pid})}" class="fas fa-eye"></a>
+         <img src="/" th:src="@{../uploaded_img/{image}(image=${wishl.image})}" alt="" class="image">
+         <div class="name" th:text="${wishl.name}"></div>
+         <div class="price" th:text="'$' + ${wishl.price}"></div>
+         <input type="hidden" name="user_id" th:value="${wishl.user_id}">
+         <input type="hidden" name="pid" th:value="${wishl.id}">
+         <input type="hidden" name="name" th:value="${wishl.name}">
+         <input type="hidden" name="price" th:value="${wishl.price}">
+         <input type="hidden" name="image" th:value="${wishl.image}">
+         <input type="submit" formaction="/cart/add" value="add to cart" name="add_to_cart" class="btn">
+      </form>  
+      <p th:if="${grand<1}" class="empty">your wishlist is empty</p>
+    </div>
+
+    <form action="" method="post">
+    	<div class="wishlist-total">
+        <p>grand total : <span th:text="'$' + ${grand}"></span></p>
+        <a href="/" th:href="@{/shop}" class="option-btn">continue shopping</a>
+        <button type="submit" th:formaction="@{/wishlist/deleteall}" th:if="${grand >=1}" class="delete-btn" onclick="confirm('delete all from wishlist?')">delete all</button>
+    </div>
+    </form>
+
+</section>
+<div th:insert="footer :: section"></div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

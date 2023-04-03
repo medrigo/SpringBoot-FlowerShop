@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>products</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/admin_style.css">
+
+</head>
+<body>
+   
+<div th:insert="admin_header :: header"></div>
+<div th:if="${param.successupdate}">
+	<div class="message">
+		<span >Updated product success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<div th:if="${param.successdelete}">
+	<div class="message">
+		<span>Deleted product success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<div th:if="${param.successadd}">
+	<div class="message">
+		<span>Added product success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<section class="add-products">
+
+   <form action="/product/add" method="POST" enctype="multipart/form-data">
+      <h3>add new product</h3>
+      <input type="text" class="box" required placeholder="enter product name" name="name">
+      <input type="number" min="0" class="box" required placeholder="enter product price" name="price">
+      <textarea name="details" class="box" required placeholder="enter product details" cols="30" rows="10"></textarea>
+      <input type="text" required class="box" placeholder="enter product image name" name="image">
+      <input type="submit" value="add product" name="add_product" class="btn">
+   </form>
+
+</section>
+
+<section class="show-products">
+
+   <div class="box-container">
+      <div class="box" th:each="product : ${products}">
+         <form action="" method="post">
+         	<div class="price" th:text="'$'+${product.price}"></div>
+	         <img class="image" th:src="@{../uploaded_img/{image}(image=${product.image})}" alt="">
+	         <div class="name" th:text="${product.name}"></div>
+	         <div class="details" th:text="${product.details}"></div>
+	         <input type="hidden" name="id" th:value="${product.id}">
+	         <button th:formaction="@{/admin/productupdate}" formmethod="get" class="option-btn">update</button>
+	         <button th:formaction="@{/product/delete?id={id}(id=${product.id})}" class="delete-btn" th:onclick="return confirm('delete this product?');">delete</button>
+         </form>
+      </div>
+     <p th:if="${products==null}" class="empty">no products added yet!</p>
+      
+   </div>
+   
+
+</section>
+<script src="../js/admin_script.js"></script>
+
+</body>
+</html>

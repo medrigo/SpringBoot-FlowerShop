@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>orders</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+
+<section class="heading">
+    <h3>your orders</h3>
+    <p> <a href="/" th:href="@{/}">home</a> / order </p>
+</section>
+
+<section class="placed-orders">
+
+    <h1 class="title">placed orders</h1>
+
+    <div class="box-container">
+
+    <div class="box" th:each="order : ${orders}">
+        <p> placed on : <span th:text="${order.placed_on}"></span> </p>
+        <p> name : <span th:text="${order.name}"></span> </p>
+        <p> number : <span th:text="${order.number}"></span> </p>
+        <p> email : <span th:text="${order.email}"></span> </p>
+        <p> address : <span th:text="${order.address}"></span> </p>
+        <p> payment method : <span th:text="${order.method}"></span> </p>
+        <p> your orders : <span th:text="${order.total_products}"></span> </p>
+        <p> total price : <span th:text="'$'+${order.total_price}"></span> </p>
+        <p> payment status : <span th:text="${order.payment_status}" th:style="'color:'+${payment_status!='pending'?'tomato':'green'}"></span> </p>
+    </div>
+    
+    <p th:if="${orders==null}" class="empty">no orders placed yet!</p>
+
+    </div>
+
+</section>
+<div th:insert="footer :: section"></div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

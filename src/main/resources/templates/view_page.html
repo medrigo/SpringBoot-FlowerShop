@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>quick view</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+
+<section class="quick-view">
+
+    <h1 class="title">product details</h1>
+    <form action="" method="POST">
+         <img src="/" th:src="@{../uploaded_img/{image}(image=${product.image})}" alt="" class="image">
+         <div class="name" th:text="${product.name}"></div>
+        <div class="price" th:text="'$' + ${product.price}"></div>
+         <input type="number" name="quantity" th:value="1" min="0" class="qty">
+         <input type="hidden" name="pid" th:value="${product.id}">
+         <input type="hidden" name="user_id" th:value="${session.user_id}">
+         <input type="hidden" name="name" th:value="${product.name}">
+         <input type="hidden" name="price" th:value="${product.price}">
+         <input type="hidden" name="image" th:value="${product.image}">
+         <input type="submit" formaction="/wishlist/addshop" value="add to wishlist" name="add_to_wishlist" class="option-btn">
+         <input type="submit" formaction="/cart/addshop" value="add to cart" name="add_to_cart" class="btn">
+      </form>
+    <div class="more-btn">
+        <a href="/" th:href="@{/}" class="option-btn">go to home page</a>
+    </div>
+
+</section>
+<div th:insert="footer :: section"></div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>dashboard</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/admin_style.css">
+
+</head>
+<body>
+   
+<div th:insert="admin_header :: header"></div>
+<div th:if="${param.successupdate}">
+	<div class="message">
+		<span >Updated order success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<div th:if="${param.successdelete}">
+	<div class="message">
+		<span>Deleted order success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<section class="placed-orders">
+
+   <h1 class="title">placed orders</h1>
+
+   <div class="box-container">
+      <div class="box" th:each="order : ${orders}">
+         <p> user id : <span th:text="${order.user_id}"></span> </p>
+         <p> placed on : <span th:text="${order.placed_on}"></span> </p>
+         <p> name : <span th:text="${order.name}"></span> </p>
+         <p> number : <span th:text="${order.number}"></span> </p>
+         <p> email : <span th:text="${order.email}"></span> </p>
+         <p> address : <span th:text="${order.address}"></span> </p>
+         <p> total products : <span th:text="${order.total_products}"></span> </p>
+         <p> total price : <span th:text="'$'+${order.total_price}"></span> </p>
+         <p> payment method : <span th:text="${order.method}"></span> </p>
+         <form action="" method="post">
+            <input type="hidden" name="id" th:value="${order.id}">
+            <select name="payment_status">
+               <option disabled selected th:text="${order.payment_status}"></option>
+               <option value="pending">pending</option>
+               <option value="completed">completed</option>
+            </select>
+            <input type="submit" formaction="/order/update" name="update_order" value="update" class="option-btn">
+            <button type="submit" th:formaction="@{/order/delete?id={id}(id=${order.id})}" class="delete-btn" th:onclick="return confirm('delete this order?');">delete</button>
+         </form>
+      </div>
+       <p th:if="${orders==null}" class="empty">no orders placed yet!</p>
+   </div>
+
+</section>
+<script src="../js/admin_script.js"></script>
+
+</body>
+</html>

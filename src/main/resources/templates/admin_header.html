@@ -1,0 +1,30 @@
+
+<header class="header">
+
+   <div class="flex">
+
+      <a th:href="@{/admin/page}" class="logo">Admin<span>Panel</span></a>
+
+      <nav class="navbar">
+         <a th:href="@{/admin/page}">Home</a>
+         <a th:href="@{/admin/product}">Products</a>
+         <a th:href="@{/admin/order}">Orders</a>
+         <a th:href="@{/admin/user}">Users</a>
+         <a th:href="@{/admin/contact}">Messages</a>
+      </nav>
+
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+      </div>
+
+      <div class="account-box">
+         <p>username : <span th:text="${session.user_name}"></span></p>
+         <p>email : <span th:text="${session.user_email}"></span></p>
+         <a th:href="@{/user/logout}" class="delete-btn">logout</a>
+         <div>new <a th:href="@{/user/loginform}">login</a> | <a th:href="@{/user/regisform}">register</a> </div>
+      </div>
+
+   </div>
+
+</header>

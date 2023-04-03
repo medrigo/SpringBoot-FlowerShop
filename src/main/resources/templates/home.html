@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>home</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+<div th:if="${param.iw}">
+	<div class="message">
+		<span >Already in WishList.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<div th:if="${param.ic}">
+	<div class="message">
+		<span >Already in Cart.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<section class="home">
+
+   <div class="content">
+      <h3>new collections</h3>
+      <p>"Flowers always make people better, happier, and more helpful; they are sunshine, food and medicine for the soul."</p>
+      <a href="/" th:href="@{/about}" class="btn">discover more</a>
+   </div>
+
+</section>
+
+<section class="products">
+
+   <h1 class="title">latest products</h1>
+
+   <div class="box-container">
+      <form th:each="prodct : ${products}" action="" method="POST" class="box" th:object="${cart}">
+         <a href="/" th:href="@{/view_page?pid={id}(id=${prodct.id})}" class="fas fa-eye"></a>
+         <div class="price" th:text="'$' + ${prodct.price}"></div>
+         <img src="/" th:src="@{../uploaded_img/{image}(image=${prodct.image})}" alt="" class="image">
+         <div class="name" th:text="${prodct.name}"></div>
+         <input type="number" name="quantity" th:value="1" min="0" class="qty">
+         <input type="hidden" name="user_id" th:value="${session.user_id}">
+         <input type="hidden" name="pid" th:value="${prodct.id}">
+         <input type="hidden" name="name" th:value="${prodct.name}">
+         <input type="hidden" name="price" th:value="${prodct.price}">
+         <input type="hidden" name="image" th:value="${prodct.image}">
+         <input type="submit" formaction="/wishlist/add" value="add to wishlist" name="add_to_wishlist" class="option-btn">
+         <input type="submit" formaction="/cart/add" value="add to cart" name="add_to_cart" class="btn">
+      </form>
+   </div>
+
+   <div class="more-btn">
+      <a href="/" th:href="@{/shop}" class="option-btn">load more</a>
+   </div>
+
+</section>
+
+<section class="home-contact">
+
+   <div class="content">
+      <h3>Have any questions?</h3>
+      <p>"Flowers always make people better, happier, and more helpful; they are sunshine, food and medicine for the soul."</p>
+      <a href="/" th:href="@{contact}" class="btn">contact us</a>
+   </div>
+
+</section>
+
+<div th:insert="footer :: section"></div>
+
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

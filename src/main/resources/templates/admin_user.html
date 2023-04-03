@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>dashboard</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/admin_style.css">
+
+</head>
+<body>
+   
+<div th:insert="admin_header :: header"></div>
+<div th:if="${param.success}">
+	<div class="message">
+		<span >Deleted user success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+
+<section class="users">
+
+   <h1 class="title">users account</h1>
+
+   <div class="box-container">
+      <div class="box" th:each="user : ${users}">
+         <form action="" method="post">
+         	<p>user id : <span th:text="${user.id}"></span></p>
+	         <p>username : <span th:text="${user.name}"></span></p>
+	         <p>email : <span th:text="${user.email}"></span></p>
+	         <p>user type : <span th:text="${user.user_type}" th:style="'color:'+${user.user_type=='admin'?'organe':''}"></span></p>
+	         <button th:formaction="@{/user/delete?id={id}(id=${user.id})}" th:onclick="return confirm('delete this user?');" class="delete-btn">delete</button>
+         </form>
+      </div>
+   </div>
+
+</section>
+<script src="../js/admin_script.js"></script>
+
+</body>
+</html>

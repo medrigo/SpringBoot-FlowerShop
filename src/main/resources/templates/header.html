@@ -1,0 +1,54 @@
+<div th:if="${param.iw}">
+	<div class="message" th:each="">
+		<span >Wish</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+
+<header class="header">
+
+	<div class="flex">
+
+		<a href="/" th:href="@{/}" class="logo">Flower Shop</a>
+
+		<nav class="navbar">
+			<ul>
+				<li><a href="/" th:href="@{/}">home</a></li>
+				<li><a href="#">pages +</a>
+					<ul>
+						<li><a href="/" th:href="@{/about}">about</a></li>
+						<li><a href="/" th:href="@{/contact}">contact</a></li>
+					</ul></li>
+				<li><a href="/" th:href="@{/shop}">shop</a></li>
+				<li><a href="/" th:href="@{/order}">orders</a></li>
+				<li><a href="#">account +</a>
+					<ul>
+						<li><a href="/" th:href="@{/user/loginform}">login</a></li>
+						<li><a href="/" th:href="@{/user/regisform}">register</a></li>
+					</ul></li>
+			</ul>
+		</nav>
+
+		<div class="icons">
+			<div id="menu-btn" class="fas fa-bars"></div>
+			<a href="/" th:href="@{/search_page}" class="fas fa-search"></a>
+			<div id="user-btn" class="fas fa-user"></div>
+			<a href="/" th:href="@{/wishlist/page}"><i class="fas fa-heart"></i><span
+				th:text="'(' +${session.wishListcount} + ')'"></span></a> <a
+				href="/" th:href="@{/cart/page}"><i class="fas fa-shopping-cart"></i><span
+				th:text="'(' +${session.cartcount} + ')'"></span></a>
+		</div>
+
+		<div class="account-box">
+			<p>
+				username : <span th:text="${session.user_name}"></span>
+			</p>
+			<p>
+				email : <span th:text="${session.user_email}"></span>
+			</p>
+			<a href="/" th:href="@{/user/logout}" class="delete-btn">logout</a>
+		</div>
+
+	</div>
+
+</header>

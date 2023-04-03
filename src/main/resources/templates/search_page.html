@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>search page</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+<div th:if="${param.iw}">
+	<div class="message">
+		<span >Already in WishList.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<div th:if="${param.ic}">
+	<div class="message">
+		<span >Already in Cart.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<section class="heading">
+    <h3>search page</h3>
+    <p> <a href="/" th:href="@{/}">home</a> / search </p>
+</section>
+
+<section class="search-form">
+    <form action="/product/findname" method="POST">
+        <input type="text" class="box" placeholder="search products..." name="search_box">
+        <input type="submit" class="btn" value="search" name="search_btn">
+    </form>
+</section>
+
+<section class="products" style="padding-top: 0;">
+   <div class="box-container">
+      <form th:each="prodct : ${products}" action="" method="POST" class="box">
+         <a href="/" th:href="@{/view_page?pid={id}(id=${prodct.id})}" class="fas fa-eye"></a>
+         <div class="price" th:text="'$' + ${prodct.price}"></div>
+         <img src="/" th:src="@{../uploaded_img/{image}(image=${prodct.image})}" alt="" class="image">
+         <div class="name" th:text="${prodct.name}"></div>
+         <input type="number" name="quantity" th:value="1" min="0" class="qty">
+         <input type="hidden" name="user_id" th:value="${session.user_id}">
+         <input type="hidden" name="pid" th:value="${prodct.id}">
+         <input type="hidden" name="name" th:value="${prodct.name}">
+         <input type="hidden" name="price" th:value="${prodct.price}">
+         <input type="hidden" name="image" th:value="${prodct.image}">
+         <input type="submit" formaction="/wishlist/addsearch" value="add to wishlist" name="add_to_wishlist" class="option-btn">
+         <input type="submit" formaction="/cart/addsearch" value="add to cart" name="add_to_cart" class="btn">
+      </form>
+      <p th:if="${products==null}" class="empty">no result found!</p>
+   </div>
+</section>
+<div th:insert="footer :: section"></div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

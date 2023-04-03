@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>dashboard</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/admin_style.css">
+
+</head>
+<body>
+   
+<div th:insert="admin_header :: header"></div>
+<div th:if="${param.success}">
+	<div class="message">
+		<span >Deleted message success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+
+<section class="messages">
+
+   <h1 class="title">messages</h1>
+
+   <div class="box-container">
+      <div class="box" th:each="message : ${messages}">
+         <p>user id : <span th:text="${message.user_id}"></span> </p>
+         <p>name : <span th:text="${message.name}"></span> </p>
+         <p>number : <span th:text="${message.number}"></span> </p>
+         <p>email : <span th:text="${message.email}"></span> </p>
+         <p>message : <span th:text="${message.message}"></span> </p>
+         <form th:action="@{/message/delete?id={id}(id=${message.id})}" method="post">
+         	<button th:onclick="return confirm('delete this message?');" class="delete-btn">delete</button>
+         </form>
+      </div>
+      
+      <p th:if="${messages==null}" class="empty">you have no messages!</p>
+
+</div>
+</section>
+<script src="../js/admin_script.js"></script>
+
+</body>
+</html>

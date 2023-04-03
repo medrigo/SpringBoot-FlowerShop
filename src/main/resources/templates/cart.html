@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>shopping cart</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+<div th:if="${param.success}">
+	<div class="message">
+		<span >Deleted product in Cart success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+
+<section class="heading">
+    <h3>shopping cart</h3>
+    <p> <a href="/" th:href="@{/}">home</a> / cart </p>
+</section>
+
+<section class="shopping-cart">
+
+    <h1 class="title">products added</h1>
+
+    <div class="box-container">
+    <div class="box" th:if="${carts!=null}" th:each="c : ${carts}">
+    <form action="" method="post" th:object="${cart}">
+        <button type="submit" th:formaction="@{/cart/delete?id={id}(id=${c.id})}" class="fas fa-times" th:onclick="return confirm('delete this from cart?')"></button>
+        <a href="/" th:href="@{/view_page?pid={id}(id=${c.pid})}" class="fas fa-eye"></a>
+        <img src="/" th:src="@{../uploaded_img/{image}(image=${c.image})}" alt="" class="image">
+        <div class="name" th:text="${c.name}"></div>
+        <div class="price" th:text="'$' + ${c.price}"></div>
+        
+        <input type="hidden" name="user_id" th:value="${c.user_id}">
+        <input type="hidden" th:value="${c.id}" name="id">
+        <input type="number" min="1" th:value="${c.quantity}" name="quantity" class="qty">
+        <input type="submit" formaction="/cart/updatequantity" value="update" class="option-btn" name="update_quantity">
+        </form>
+        <div class="sub-total"> sub-total : <span th:text="'$' + ${c.price*c.quantity} + '/-'"></span> </div>
+    </div>
+      <p th:if="${grand<1}" class="empty">your cart is empty</p>
+    </div>
+<form action="/cart/deleteall" method="post">
+<div class="more-btn">
+        <button type="submit" th:if="${grand >=1}"  class="btn" th:onclick="return confirm('delete all from cart?');">delete all</button>
+        
+    </div>
+</form>
+    
+
+    <div class="cart-total" >
+        <p>grand total : <span th:text="'$' + ${grand}"></span></p>
+        <a href="/" th:href="@{/shop}" class="option-btn">continue shopping</a>
+        <a href="/" th:href="@{/cart/checkout}" th:if="${grand >=1}" class="btn">proceed to checkout</a>
+    </div>
+
+</section>
+<div th:insert="footer :: section"></div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

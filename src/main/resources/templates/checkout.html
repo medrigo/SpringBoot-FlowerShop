@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>checkout</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- custom admin css file link  -->
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+   
+<div th:insert="header :: header"></div>
+<div th:if="${param.success}">
+	<div class="message">
+		<span >Ordered success.</span> <i class="fas fa-times"
+			onclick="this.parentElement.remove();"></i>
+	</div>
+</div>
+<section class="heading">
+    <h3>checkout order</h3>
+    <p> <a href="/" th:href="@{/}">home</a> / checkout </p>
+</section>
+
+<section class="display-order">
+        
+	  <p th:each="cart : ${carts}" th:utext="${cart.name + ' <span>$' + cart.price + ' x ' + cart.quantity + '</span>'}"></p>
+	  
+        
+	<p th:if="${grand<1}" class="empty">your cart is empty</p>
+
+    <div class="grand-total">grand total : <span th:text="'$'+${grand}"></span></div>
+</section>
+
+<section class="checkout">
+
+    <form action="/order/comfirmorder" method="POST">
+
+        <h3>place your order</h3>
+		<input type="hidden" name="user_id" th:value="${session.user_id}">
+		<input type="hidden" name="grand" th:value="${grand}">
+        <div class="flex">
+            <div class="inputBox">
+                <span>your name :</span>
+                <input type="text" name="name" placeholder="enter your name">
+            </div>
+            <div class="inputBox">
+                <span>your number :</span>
+                <input type="number" name="number" min="0" placeholder="enter your number">
+            </div>
+            <div class="inputBox">
+                <span>your email :</span>
+                <input type="email" name="email" placeholder="enter your email">
+            </div>
+            <div class="inputBox">
+                <span>payment method :</span>
+                <select name="method">
+                    <option value="cash on delivery">cash on delivery</option>
+                    <option value="credit card">credit card</option>
+                    <option value="paypal">paypal</option>
+                    <option value="paytm">paytm</option>
+                </select>
+            </div>
+            <div class="inputBox">
+                <span>house address :</span>
+                <input type="text" name="flat" placeholder="e.g. flat no.">
+            </div>
+            <div class="inputBox">
+                <span>street name :</span>
+                <input type="text" name="street" placeholder="e.g.  street name">
+            </div>
+            <div class="inputBox">
+                <span>city :</span>
+                <input type="text" name="city" placeholder="e.g. Di An">
+            </div>
+            <div class="inputBox">
+                <span>state :</span>
+                <input type="text" name="state" placeholder="e.g. Binh Duong">
+            </div>
+            <div class="inputBox">
+                <span>country :</span>
+                <input type="text" name="country" placeholder="e.g. Viet Nam">
+            </div>
+            <div class="inputBox">
+                <span>pin code :</span>
+                <input type="number" min="0" name="pin_code" placeholder="e.g. 123456">
+            </div>
+        </div>
+
+        <input th:if="${grand>1}" formaction="/order/comfirmorder" type="submit" name="order" value="order now" class="btn">
+
+    </form>
+
+</section>
+<div th:insert="footer :: section"></div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
